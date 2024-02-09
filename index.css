@@ -1,0 +1,9 @@
+*{
+  font-family:Helvetica, sans-serif;
+}
+
+
+.center{
+  background-color: red;
+  height: inherit;
+}

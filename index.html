@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="normalizer.css">
+  <link rel="stylesheet" href="index.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./confetti.min.js"></script>
+  <title>Say Yes</title>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+  <div id="content">
+    <h1 class="text-3xl text-center font-bold p-10">
+      Freya, do you want to go out with me on Valentine's Day?
+    </h1>
+    <div class="flex justify-center gap-10 my-10 items-center">
+      <button 
+        id="btnYes"
+        onclick="yesPressed(event)"
+        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+      >
+        Yes
+      </button>
+      <button 
+        id="btnNo"
+        onclick="noPressed()"
+        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+      >
+        No
+      </button>
+    </div>
+  </div>
+  <div id="messageContainer" class="text-2xl text-center mt-4 hidden"></div>
+  <script src="confetti.min.js"></script>
+  <script>
+    let confetti = new Confetti("btnYes");
+    let yesButtonSize = 100; 
+    const messages = [
+      "Yes", 
+      "Are you sure?", 
+      "Think a bit more", 
+      "Please say Yes!"
+    ];
+    let messageIndex = 0;
+
+    function yesPressed(event) {
+      // Initialize confetti with a target element ID
+      confetti.setCount(75);
+      confetti.setSize(1);
+      confetti.setPower(25);
+      confetti.setFade(false);
+      confetti.destroyTarget(true);
+
+      // Hide or remove all elements except for the message
+      document.getElementById('content').style.display = 'none'; // Hide the main content
+
+      // Display the message
+      const messageContainer = document.getElementById('messageContainer');
+      messageContainer.textContent = "Yay! Looking forward to it!    <3";
+      messageContainer.classList.remove('hidden'); // Show the message container if it was hidden
+    }
+
+  
+    function noPressed() {
+      const noButton = document.getElementById('btnNo');
+      const yesButton = document.getElementById('btnYes');
+  
+      // Increase the "Yes" button size
+      yesButtonSize += 10;
+      yesButton.style.transform = `scale(${yesButtonSize / 100})`;
+  
+      // Update the "Yes" button text with the next message
+      yesButton.textContent = messages[messageIndex];
+      messageIndex = (messageIndex + 1) % messages.length; // Cycle through messages
+  
+      // Avoid overlapping the "Yes" button
+      let newX, newY;
+      do {
+        newX = Math.random() * (window.innerWidth - noButton.offsetWidth);
+        newY = Math.random() * (window.innerHeight - noButton.offsetHeight);
+      } while (isOverlap(newX, newY, yesButton.getBoundingClientRect()));
+  
+      noButton.style.position = 'absolute';
+      noButton.style.left = `${newX}px`;
+      noButton.style.top = `${newY}px`;
+    }
+  
+    // Check if the proposed new position for "No" button overlaps with "Yes" button
+    function isOverlap(x, y, yesRect) {
+      const buffer = 50; // Adding some buffer to reduce risk of overlap
+      return (
+        x < yesRect.right + buffer &&
+        x + btnNo.offsetWidth > yesRect.left - buffer &&
+        y < yesRect.bottom + buffer &&
+        y + btnNo.offsetHeight > yesRect.top - buffer
+      );
+    }
+  </script>
+  
+</body>
+</html>
