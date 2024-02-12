@@ -9,8 +9,8 @@
 </head>
 <body class="flex items-center justify-center min-h-screen">
   <div id="content">
-    <h1 class="text-3xl text-center font-bold p-10">
-      <h1 id="custom_name"></h1>, do you want to go out with me on Valentine's Day?
+    <h1 class="text-3xl text-center font-bold p-10" id="custom_name">
+      Do you want to go out with me on Valentine's Day?
     </h1>
     <div class="flex justify-center gap-10 my-10 items-center">
       <button 
@@ -36,10 +36,10 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Extract the 'name' query parameter
       const urlParams = new URLSearchParams(window.location.search);
-      const name = urlParams.get('name') || ''; 
+      const name = urlParams.get('name') || '';
 
       // Update the h1 element with the customized name
-      document.querySelector('#custom_name').textContent = name;
+      document.querySelector('#custom_name').textContent = `${name}, do you want to go out with me on Valentine's Day?`;
     });
 
 
